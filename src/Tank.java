@@ -16,9 +16,7 @@ public class Tank {
 	
 	public void draw(Graphics g) {
 		g.fillOval(x, y, TANK_SIZE, TANK_SIZE);
-		ptdir = Direction.R;
 		g.setColor(Color.BLACK);
-	//	System.out.println(ptdir);
 		switch (ptdir) {
 		case L:
 			g.drawLine(x+TANK_SIZE/2, y+TANK_SIZE/2, x, y+TANK_SIZE/2);
@@ -52,9 +50,6 @@ public class Tank {
 	public void keyPressed(KeyEvent e) {
 		int key = e.getKeyCode();
 		switch(key) {
-		case KeyEvent.VK_CONTROL:
-			tp.mis = new Missile(x+TANK_SIZE/2-Missile.MISSLE_SIZE/2, y+TANK_SIZE/2-Missile.MISSLE_SIZE/2, dir);
-			break;
 		case KeyEvent.VK_LEFT: case KeyEvent.VK_A:
 			bleft = true;
 			break;
@@ -74,6 +69,9 @@ public class Tank {
 	public void keyReleased(KeyEvent e) {
 		int key = e.getKeyCode();
 		switch(key) {
+		case KeyEvent.VK_CONTROL:
+			tp.misArrayList.add(fire());
+			break;
 		case KeyEvent.VK_LEFT: case KeyEvent.VK_A:
 			bleft = false;
 			break;
@@ -123,8 +121,8 @@ public class Tank {
 			break;
 		}
 		
+		// 炮筒方向
 		if(this.dir != Direction.STOP) {
-			System.out.println("ha");
 			ptdir = dir;
 		}
 	}
@@ -138,6 +136,14 @@ public class Tank {
 		else if(!bleft && bright && !bup && bdown) dir = Direction.RD;
 		else if(!bleft && !bright && !bup && bdown) dir = Direction.D;
 		else if(bleft && !bright && !bup && bdown) dir = Direction.LD;
+		else if(!bleft && !bright && !bup && !bdown) dir = Direction.STOP;
+	}
+	
+	public Missile fire() {
+		int x = this.x+TANK_SIZE/2-Missile.MISSLE_SIZE/2;
+		int y = this.y+TANK_SIZE/2-Missile.MISSLE_SIZE/2;
+		Missile m = new Missile(x, y, ptdir);
+		return m;
 	}
 	
 	private TankPanel tp;

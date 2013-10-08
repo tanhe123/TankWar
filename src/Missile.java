@@ -55,6 +55,6 @@ public class Missile {
 	private Tank.Direction dir;
 	
 	public static final int MISSLE_SIZE = 10;
-	public static final int MISSILE_SPEED = 8;
+	public static final int MISSILE_SPEED = 15;
 
 }

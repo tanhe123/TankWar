@@ -2,6 +2,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 
 import javax.swing.JPanel;
 
@@ -19,12 +20,14 @@ public class TankPanel extends JPanel{
 		super.paintComponent(g);
 		g.setColor(Color.RED);
 		myTank.draw(g);
-		if(mis != null) {
-			mis.draw(g);
+		if(misArrayList.size() != 0) {
+			for(Missile e : misArrayList) {
+				e.draw(g);
+			}
 		}
 	}
 
-	public Missile mis;
+	public ArrayList<Missile> misArrayList = new ArrayList<Missile>();
 	private Tank myTank = new Tank(50, 50, this);
 	
 	private class PaintThread implements Runnable {
@@ -32,7 +35,7 @@ public class TankPanel extends JPanel{
 			while(true) {
 				repaint();
 				try {
-					Thread.sleep(40);
+					Thread.sleep(50);
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
