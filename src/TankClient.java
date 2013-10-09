@@ -1,10 +1,5 @@
-import java.awt.*;
-import java.awt.event.*;
-import java.util.Timer;
-
-import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.plaf.SliderUI;
+
 
 public class TankClient extends JFrame{
 	public static void main(String[] args) {
