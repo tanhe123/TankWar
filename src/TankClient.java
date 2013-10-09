@@ -19,9 +19,9 @@ public class TankClient extends JFrame{
 		getContentPane().add(new TankPanel());
 		setVisible(true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);				
-	//	setResizable(false);
+		setResizable(false);
 	}
 	
-	private final static int HEIGHT = 300;
-	private final static int WIDTH = 400;
+	public final static int HEIGHT = 500;
+	public final static int WIDTH = 600;
 }

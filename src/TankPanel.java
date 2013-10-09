@@ -3,6 +3,7 @@ import java.awt.Graphics;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import javax.swing.JPanel;
 
@@ -13,22 +14,27 @@ public class TankPanel extends JPanel{
 		
 		this.setFocusable(true);
 		this.addKeyListener(new KeyMonitor());
-		
 	}
 	
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		g.setColor(Color.RED);
+		g.drawString("arraysize: " + misArrayList.size(), 20, 30);
+		
+		// 画坦克
 		myTank.draw(g);
-		if(misArrayList.size() != 0) {
-			for(Missile e : misArrayList) {
-				e.draw(g);
-			}
+		enemyTank.draw(g);
+		
+		// 画炮弹
+		for(int i=0; i<misArrayList.size(); i++) {
+			Missile m = misArrayList.get(i);
+			m.draw(g);
 		}
+		
 	}
 
 	public ArrayList<Missile> misArrayList = new ArrayList<Missile>();
-	private Tank myTank = new Tank(50, 50, this);
+	private Tank myTank = new Tank(50, 50, true, this);
+	private Tank enemyTank = new Tank(60, 70, false, this);
 	
 	private class PaintThread implements Runnable {
 		public void run() {

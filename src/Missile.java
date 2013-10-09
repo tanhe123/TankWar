@@ -9,6 +9,11 @@ public class Missile {
 		this.dir = dir;
 	}
 	
+	public Missile(int x, int y, Tank.Direction dir, TankPanel tp) {
+		this(x, y, dir);
+		this.tp = tp;
+	}
+	
 	public void draw(Graphics g) {
 		Color c = g.getColor();
 		g.setColor(Color.BLACK);
@@ -49,10 +54,15 @@ public class Missile {
 			y += MISSILE_SPEED;
 			break;
 		}
+		
+		if(this.x < 0 || this.y < 0 || this.x > TankClient.WIDTH || this.y > TankClient.HEIGHT) {
+			tp.misArrayList.remove(this);
+		}
 	}
-
+	
 	private int x, y;
 	private Tank.Direction dir;
+	private TankPanel tp;
 	
 	public static final int MISSLE_SIZE = 10;
 	public static final int MISSILE_SPEED = 15;

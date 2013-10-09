@@ -4,17 +4,23 @@ import java.awt.event.KeyEvent;
 
 
 public class Tank {
-	public Tank(int x, int y) {
+	public Tank(int x, int y, boolean good) {
 		this.x = x;
 		this.y = y;
+		this.good = good;
 	}
 	
-	public Tank(int x, int y, TankPanel tp) {
-		this(x, y);
+	public Tank(int x, int y, boolean good, TankPanel tp) {
+		this(x, y, good);
 		this.tp = tp;
 	}
 	
 	public void draw(Graphics g) {
+		Color c = g.getColor();
+		// 设置坦克颜色
+		if(this.good) g.setColor(Color.RED);
+		else g.setColor(Color.GRAY);
+		
 		g.fillOval(x, y, TANK_SIZE, TANK_SIZE);
 		g.setColor(Color.BLACK);
 		switch (ptdir) {
@@ -24,7 +30,7 @@ public class Tank {
 		case LU:
 			g.drawLine(x+TANK_SIZE/2, y+TANK_SIZE/2, x, y);
 			break;
-		case U:
+		case U: 
 			g.drawLine(x+TANK_SIZE/2, y+TANK_SIZE/2, x+TANK_SIZE/2, y);
 			break;
 		case RU:
@@ -43,7 +49,7 @@ public class Tank {
 			g.drawLine(x+TANK_SIZE/2, y+TANK_SIZE/2, x, y+TANK_SIZE);
 			break;
 		}
-		
+		g.setColor(c);
 		move();
 	}
 	
@@ -70,7 +76,7 @@ public class Tank {
 		int key = e.getKeyCode();
 		switch(key) {
 		case KeyEvent.VK_CONTROL:
-			tp.misArrayList.add(fire());
+			fire();
 			break;
 		case KeyEvent.VK_LEFT: case KeyEvent.VK_A:
 			bleft = false;
@@ -86,7 +92,6 @@ public class Tank {
 			break;
 		}
 		locateDirection();
-		move();
 	}
 
 	private void move() {
@@ -119,12 +124,20 @@ public class Tank {
 			x -= TANK_SPEED;
 			y += TANK_SPEED;
 			break;
+		case STOP:
+			break;
 		}
 		
 		// 炮筒方向
 		if(this.dir != Direction.STOP) {
 			ptdir = dir;
 		}
+		
+		if(x < 0) x = 0;
+		if(y < 0) y = 0;
+		if(x + TANK_SIZE > TankClient.WIDTH) x = TankClient.WIDTH-TANK_SIZE;
+		// 去掉标题栏的高度
+		if(y + TANK_SIZE > TankClient.HEIGHT-30) y = TankClient.HEIGHT-TANK_SIZE-30;
 	}
 	
 	private void locateDirection() {
@@ -142,10 +155,12 @@ public class Tank {
 	public Missile fire() {
 		int x = this.x+TANK_SIZE/2-Missile.MISSLE_SIZE/2;
 		int y = this.y+TANK_SIZE/2-Missile.MISSLE_SIZE/2;
-		Missile m = new Missile(x, y, ptdir);
+		Missile m = new Missile(x, y, ptdir, this.tp);
+		tp.misArrayList.add(m);
 		return m;
 	}
 	
+	private boolean good;
 	private TankPanel tp;
 	private int x, y;
 	private Direction dir = Direction.STOP;
@@ -154,5 +169,5 @@ public class Tank {
 	enum Direction {L, LU, U, RU, R, RD, D, LD, STOP};
 	
 	public static final int TANK_SIZE = 30;
-	private static final int TANK_SPEED = 5;
+	public static final int TANK_SPEED = 5;
 }
