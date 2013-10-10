@@ -1,5 +1,8 @@
+package com.ornament;
+
 import java.awt.Graphics;
 import java.awt.Rectangle;
+import com.main.*;
 
 
 public class Wall {

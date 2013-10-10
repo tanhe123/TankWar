@@ -1,12 +1,15 @@
-import java.awt.Color;
-import java.awt.Graphics;
+package com.main;
+
+import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.rmi.server.ExportException;
-import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.*;
 
 import javax.swing.JPanel;
+
+import com.tank.*;
+import com.ornament.*;
+import com.missile.*;
 
 public class TankPanel extends JPanel{
 	public TankPanel() {

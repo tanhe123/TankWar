@@ -1,5 +1,6 @@
-import javax.swing.JFrame;
+package com.main;
 
+import javax.swing.JFrame;
 
 public class TankClient extends JFrame{
 	public static void main(String[] args) {
