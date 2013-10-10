@@ -22,7 +22,10 @@ public class Tank {
 	
 	public void draw(Graphics g) {
 		if(!live) return;
-						
+					
+		//显示学条
+		if(good) blood.draw(g);
+		
 		Color c = g.getColor();
 		// 设置坦克颜色
 		if(this.good) g.setColor(Color.RED);
@@ -263,19 +266,31 @@ public class Tank {
 		this.life = life;
 	}
 	
+	private BloodBar blood = new BloodBar();
 	private int oldX, oldY;	//保存的前一坐标
 	private int step = 0;	
 	private boolean good;	//是自己，还是敌人
 	private static Random r = new Random();
 	private boolean live = true;	//是否还或者
-	private int life = 40;
+	private int life = 100;
 	private TankPanel tp;
 	private int x, y;
 	private Direction dir = Direction.STOP;
-	private Direction ptdir = Direction.R;
+	private Direction ptdir = Direction.R; 
 	private boolean bleft = false, bright = false, bup = false, bdown = false; 
 	enum Direction {L, LU, U, RU, R, RD, D, LD, STOP};
 	
 	public static final int TANK_SIZE = 30;
 	public static final int TANK_SPEED = 5;
+	
+	private class BloodBar {
+		public void draw(Graphics g) {
+			Color c = g.getColor();
+			g.setColor(Color.BLACK);
+			g.drawRect(x, y-10, Tank.TANK_SIZE, 10);
+			g.setColor(Color.RED);
+			g.fillRect(x, y-10, getLife()*TANK_SIZE/100, 10);
+			g.setColor(c);
+		}
+	}
 }

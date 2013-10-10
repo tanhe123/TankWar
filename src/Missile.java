@@ -78,13 +78,11 @@ public class Missile {
 	}
 	
 	public boolean hitTank(Tank t) {
-		if(t.isLive() && this.getRect().intersects(t.getRect())
+		if(this.isLive() && t.isLive() && this.getRect().intersects(t.getRect())
 				&& this.good != t.isGood()) {
-			
 			if(t.isGood()) {	// 自己
-				if(t.getLife() - 20 > 0) {
-					t.setLife(t.getLife()-20);
-				} else {
+				t.setLife(t.getLife()-20);
+				if(t.getLife() <= 0) {
 					t.setLife(0);
 					t.setLive(false);
 				}
@@ -92,6 +90,7 @@ public class Missile {
 				t.setLive(false);
 			}
 			
+			this.live = false;			
 			Explode e = new Explode(t.getX(), t.getY(), tp);
 			tp.explodes.add(e);
 			return true;
