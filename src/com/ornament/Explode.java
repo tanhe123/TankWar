@@ -1,5 +1,9 @@
+package com.ornament;
+
 import java.awt.Color;
 import java.awt.Graphics;
+
+import com.main.TankPanel;
 
 
 public class Explode {

@@ -1,9 +1,15 @@
+package com.tank;
+
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.Random;
+
+import com.main.*;
+import com.missile.*;
+import com.ornament.*;
 
 
 public class Tank {
@@ -15,9 +21,9 @@ public class Tank {
 		this.good = good;
 	}
 	
-	public Tank(int x, int y, boolean good, TankPanel tp) {
+	public Tank(int x, int y, boolean good, TankPanel tankPanel) {
 		this(x, y, good);
-		this.tp = tp;
+		this.tp = tankPanel;
 	}
 	
 	public void draw(Graphics g) {
@@ -274,7 +280,7 @@ public class Tank {
 	private Direction dir = Direction.STOP;
 	private Direction ptdir = Direction.R;
 	private boolean bleft = false, bright = false, bup = false, bdown = false; 
-	enum Direction {L, LU, U, RU, R, RD, D, LD, STOP};
+	public enum Direction {L, LU, U, RU, R, RD, D, LD, STOP};
 	
 	public static final int TANK_SIZE = 30;
 	public static final int TANK_SPEED = 5;
