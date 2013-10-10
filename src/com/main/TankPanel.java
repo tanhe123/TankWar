@@ -19,9 +19,12 @@ public class TankPanel extends JPanel{
 		this.setFocusable(true);
 		this.addKeyListener(new KeyMonitor());
 		
-		// 添加坦克
-		for(int i=0; i<20; i++) {
-			tanks.add(new Tank(30+40*i, 50, false, this));
+		// 把自身加入
+		tanks.add(myTank);
+		
+		// 添加敌人
+		for(int i=0; i<7; i++) {
+			tanks.add(new EnemyTank(30+40*i, 50, this));
 		}
 		
 		// 添加墙
@@ -35,16 +38,14 @@ public class TankPanel extends JPanel{
 		g.drawString("explode arraysize: " + explodes.size(), 20, 50);
 		g.drawString("tanks size : " + tanks.size(), 20, 70);
 		g.drawString("my life: " + myTank.getLife(), 20, 90);
-		// 画坦克
-		myTank.collidesWithWall(walls);
-		myTank.draw(g);
 		
-		// 画敌人
+		// 画坦克
 		Iterator<Tank> tita = tanks.iterator();
 		while(tita.hasNext()) {
 			Tank t = tita.next();
 			if(!t.isLive()) tita.remove();
 			else {
+				t.collidesWithTank(tanks);
 				t.collidesWithWall(walls);
 				t.draw(g);
 			}
@@ -82,7 +83,7 @@ public class TankPanel extends JPanel{
 	public ArrayList<Tank> tanks = new ArrayList<Tank>();
 	public ArrayList<Missile> misArrayList = new ArrayList<Missile>();
 	public ArrayList<Wall> walls = new ArrayList<Wall>();
-	public Tank myTank = new Tank(250, 300, true, this);
+	public MyTank myTank = new MyTank(250, 300, true, this);
 	public ArrayList<Explode> explodes = new ArrayList<Explode>(); 
 	
 	private class PaintThread implements Runnable {

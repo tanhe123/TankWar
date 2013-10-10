@@ -13,16 +13,15 @@ import com.ornament.*;
 
 
 public class Tank {
-	public Tank(int x, int y, boolean good) {
+	public Tank(int x, int y) {
 		this.x = x;
 		this.y = y;
 		this.oldX = x;
 		this.oldY = y;
-		this.good = good;
 	}
 	
-	public Tank(int x, int y, boolean good, TankPanel tankPanel) {
-		this(x, y, good);
+	public Tank(int x, int y, TankPanel tankPanel) {
+		this(x, y);
 		this.tp = tankPanel;
 	}
 	
@@ -34,8 +33,7 @@ public class Tank {
 		
 		Color c = g.getColor();
 		// 设置坦克颜色
-		if(this.good) g.setColor(Color.RED);
-		else g.setColor(Color.GRAY);
+		g.setColor(tankColor);
 		
 		g.fillOval(x, y, TANK_SIZE, TANK_SIZE);
 		g.setColor(Color.BLACK);
@@ -68,50 +66,7 @@ public class Tank {
 		g.setColor(c);
 		move();
 	}
-	
-	public void keyPressed(KeyEvent e) {
-		int key = e.getKeyCode();
-		switch(key) {
-		case KeyEvent.VK_LEFT: case KeyEvent.VK_A:
-			bleft = true;
-			break;
-		case KeyEvent.VK_RIGHT: case KeyEvent.VK_D:
-			bright = true;
-			break;
-		case KeyEvent.VK_UP: case KeyEvent.VK_W:
-			bup = true;
-			break;
-		case KeyEvent.VK_DOWN: case KeyEvent.VK_S:
-			bdown = true;
-			break;
-		}
-		locateDirection();
-	}
 
-	public void keyReleased(KeyEvent e) {
-		int key = e.getKeyCode();
-		switch(key) {
-		case KeyEvent.VK_O:
-			superFire();
-			break;
-		case KeyEvent.VK_CONTROL:
-			fire();
-			break;
-		case KeyEvent.VK_LEFT: case KeyEvent.VK_A:
-			bleft = false;
-			break;
-		case KeyEvent.VK_RIGHT: case KeyEvent.VK_D:
-			bright = false;
-			break;
-		case KeyEvent.VK_UP: case KeyEvent.VK_W:
-			bup = false;
-			break;
-		case KeyEvent.VK_DOWN: case KeyEvent.VK_S:
-			bdown = false;
-			break;
-		}
-		locateDirection();
-	}
 
 	private void move() {
 		this.oldX = this.x;
@@ -206,7 +161,15 @@ public class Tank {
 		return false;
 	}
 	
-	private void locateDirection() {
+	public boolean collidesWithTank(ArrayList<Tank> tanks) {
+		for(Tank e : tanks) {
+			if(this != e && this.collidesWithTank(e)) 
+				return true;
+		}
+		return false;
+	}
+	
+	protected void locateDirection() {
 		if(bleft && !bright && !bup && !bdown) dir = Direction.L;
 		else if(bleft && !bright && bup && !bdown) dir = Direction.LU;
 		else if(!bleft && !bright && bup && !bdown) dir = Direction.U;
@@ -230,14 +193,6 @@ public class Tank {
 		Missile m = new Missile(x, y, this.good, dir, this.tp);
 		tp.misArrayList.add(m);
 		return m;
-	}
-	
-	public void superFire() {
-		Direction[] dirs = Direction.values();
-		for(Direction d : dirs) {
-			if(d == Direction.STOP) continue;
-			fire(d);
-		}
 	}
 	
 	public Rectangle getRect() {
@@ -272,18 +227,27 @@ public class Tank {
 		this.life = life;
 	}
 	
+	public void setColor(Color c) {
+		tankColor = c;
+	}
+	
+	public void setGood(boolean b) {
+		good = b;
+	}
+	
+	private Color tankColor = Color.GRAY;
 	private BloodBar blood = new BloodBar();
 	private int oldX, oldY;	//保存的前一坐标
-	private int step = 0;	
-	private boolean good;	//是自己，还是敌人
-	private static Random r = new Random();
+	private int step = 0;
+	private boolean good = false;	//是自己，还是敌人
+	public static Random r = new Random();
 	private boolean live = true;	//是否还或者
 	private int life = 100;
 	private TankPanel tp;
 	private int x, y;
 	private Direction dir = Direction.STOP;
 	private Direction ptdir = Direction.R; 
-	private boolean bleft = false, bright = false, bup = false, bdown = false; 
+	public boolean bleft = false, bright = false, bup = false, bdown = false; 
 	public enum Direction {L, LU, U, RU, R, RD, D, LD, STOP};
 	
 	public static final int TANK_SIZE = 30;
