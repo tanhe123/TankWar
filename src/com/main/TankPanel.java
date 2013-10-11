@@ -23,8 +23,12 @@ public class TankPanel extends JPanel{
 		tanks.add(myTank);
 		
 		// 添加敌人
-		for(int i=0; i<7; i++) {
-			tanks.add(new EnemyTank(30+40*i, 50, this));
+		for(int i=0; i<10; i++) {
+			Tank t = new EnemyTank(Tank.r.nextInt(TankClient.WIDTH), 
+					Tank.r.nextInt(TankClient.HEIGHT), this);
+			if(!t.collidesWithTank(tanks) && !t.collidesWithWall(walls)) {
+				tanks.add(t);
+			}
 		}
 		
 		// 添加墙
