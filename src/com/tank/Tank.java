@@ -246,7 +246,6 @@ public class Tank {
 	private Direction dir = Direction.STOP;
 	private Direction ptdir = Direction.R; 
 	public boolean bleft = false, bright = false, bup = false, bdown = false; 
-	public enum Direction {L, LU, U, RU, R, RD, D, LD, STOP};
 	
 	public static final int TANK_SIZE = 30;
 	public static final int TANK_SPEED = 5;

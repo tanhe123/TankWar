@@ -66,9 +66,9 @@ public class MyTank extends Tank {
 	}
 	
 	public void superFire() {
-		Tank.Direction[] dirs = Tank.Direction.values();
-		for(Tank.Direction d : dirs) {
-			if(d == Tank.Direction.STOP) continue;
+		Direction[] dirs = Direction.values();
+		for(Direction d : dirs) {
+			if(d == Direction.STOP) continue;
 			fire(d);
 		}
 	}

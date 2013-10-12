@@ -9,17 +9,17 @@ import com.main.TankClient;
 import com.main.TankPanel;
 import com.ornament.Explode;
 import com.ornament.Wall;
-import com.tank.Tank;
+import com.tank.*;
 
 public class Missile {
 	
-	public Missile(int x, int y, Tank.Direction dir) {
+	public Missile(int x, int y, Direction dir) {
 		this.x = x;
 		this.y = y;
 		this.dir = dir;
 	}
 	
-	public Missile(int x, int y, boolean good, Tank.Direction dir, TankPanel tp) {
+	public Missile(int x, int y, boolean good, Direction dir, TankPanel tp) {
 		this(x, y, dir);
 		this.tp = tp;
 		this.good = good;
@@ -134,7 +134,7 @@ public class Missile {
 	private boolean good;
 	private boolean live = true;
 	private int x, y;
-	private Tank.Direction dir;
+	private Direction dir;
 	private TankPanel tp;
 	
 	public static final int MISSLE_SIZE = 10;
