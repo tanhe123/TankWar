@@ -3,14 +3,12 @@ package com.tank;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
-import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.Random;
 
 import com.main.*;
 import com.missile.*;
 import com.ornament.*;
-
 
 public class Tank {
 	public Tank(int x, int y) {

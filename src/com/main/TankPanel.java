@@ -3,8 +3,10 @@ package com.main;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.geom.Rectangle2D;
 import java.util.*;
 
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import com.tank.*;
@@ -18,26 +20,23 @@ public class TankPanel extends JPanel{
 		
 		this.setFocusable(true);
 		this.addKeyListener(new KeyMonitor());
-		
-		// 把自身加入
-		tanks.add(myTank);
-		
-		// 添加敌人
-		for(int i=0; i<10; i++) {
-			Tank t = new EnemyTank(Tank.r.nextInt(TankClient.WIDTH), 
-					Tank.r.nextInt(TankClient.HEIGHT), this);
-			if(!t.collidesWithTank(tanks) && !t.collidesWithWall(walls)) {
-				tanks.add(t);
-			}
-		}
-		
-		// 添加墙
+
+		// 添加墙, 墙要先于坦克添加
 		walls.add(new Wall(200, 300, 40, 230, this));
 		walls.add(new Wall(100, 200, 140, 30, this));
+
+		// 把自身加入
+		tanks.add(myTank);
+			
+		// 添加敌人
+		for(int i=0; i<10; i++) {
+			this.addRandomTank();
+		}
 	}
 	
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
+		
 		g.drawString("missile arraysize: " + misArrayList.size(), 20, 30);
 		g.drawString("explode arraysize: " + explodes.size(), 20, 50);
 		g.drawString("tanks size : " + tanks.size(), 20, 70);
@@ -83,6 +82,17 @@ public class TankPanel extends JPanel{
 			e.draw(g);
 		}
 	}
+	
+	public void addRandomTank() {
+		while(true) {
+			Tank t = new EnemyTank(Tank.r.nextInt(TankClient.WIDTH-Tank.TANK_SIZE), 
+					Tank.r.nextInt(TankClient.HEIGHT-Tank.TANK_SIZE-40), this);
+			if(!t.collidesWithTank(tanks) && !t.collidesWithWall(walls)) {
+				tanks.add(t);
+				break;
+			}
+		}
+	}
 
 	public ArrayList<Tank> tanks = new ArrayList<Tank>();
 	public ArrayList<Missile> misArrayList = new ArrayList<Missile>();
@@ -90,9 +100,23 @@ public class TankPanel extends JPanel{
 	public MyTank myTank = new MyTank(250, 300, true, this);
 	public ArrayList<Explode> explodes = new ArrayList<Explode>(); 
 	
+	
 	private class PaintThread implements Runnable {
 		public void run() {
 			while(true) {
+				if(tanks.size() == 1) {
+					int r = JOptionPane.showConfirmDialog(null, "恭喜您胜利了\n");
+					if(r == JOptionPane.OK_OPTION) {
+						break;
+					}
+				}
+				else if(!myTank.isLive()) {
+					int r = JOptionPane.showConfirmDialog(null, "您失败了");
+					if(r == JOptionPane.OK_OPTION) {
+						break;
+					}
+				}
+				
 				repaint();
 				try {
 					Thread.sleep(50);

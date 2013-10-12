@@ -1,6 +1,7 @@
 package com.main;
 
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 
 public class TankClient extends JFrame{
 	public static void main(String[] args) {
