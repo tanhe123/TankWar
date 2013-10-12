@@ -11,7 +11,6 @@ public class EnemyTank extends Tank{
 	}
 	public EnemyTank(int x, int y) {
 		super(x, y);
-
 	}
 		
 	public EnemyTank(int x, int y, TankPanel tankPanel) {
