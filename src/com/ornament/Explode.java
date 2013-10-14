@@ -2,6 +2,8 @@ package com.ornament;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Image;
+import java.awt.Toolkit;
 
 import com.main.TankPanel;
 
@@ -17,15 +19,12 @@ public class Explode {
 	public void draw(Graphics g) {
 		if(!live) return ;
 		
-		if(step == diameter.length) {
+		if(step == imgs.length) {
 			live = false;
 			return ;
 		}
 		
-		Color c = g.getColor();
-		g.setColor(Color.GRAY);
-		g.fillOval(x, y, diameter[step], diameter[step]);
-		g.setColor(c);
+		g.drawImage(imgs[step], x, y, null);
 		step++;
 	}
 	
@@ -33,7 +32,20 @@ public class Explode {
 		return live;
 	}
 	
-	private static int[] diameter = {4, 7, 12, 18, 16, 26, 32, 49, 30, 14, 6};
+	private static Toolkit tk = Toolkit.getDefaultToolkit();
+	private static Image[] imgs = {
+		tk.getImage(Explode.class.getClassLoader().getResource("images/0.gif")),
+		tk.getImage(Explode.class.getClassLoader().getResource("images/1.gif")),
+		tk.getImage(Explode.class.getClassLoader().getResource("images/2.gif")),
+		tk.getImage(Explode.class.getClassLoader().getResource("images/3.gif")),
+		tk.getImage(Explode.class.getClassLoader().getResource("images/4.gif")),
+		tk.getImage(Explode.class.getClassLoader().getResource("images/5.gif")),
+		tk.getImage(Explode.class.getClassLoader().getResource("images/6.gif")),
+		tk.getImage(Explode.class.getClassLoader().getResource("images/7.gif")),
+		tk.getImage(Explode.class.getClassLoader().getResource("images/8.gif")),
+		tk.getImage(Explode.class.getClassLoader().getResource("images/9.gif")),
+	};
+
 	private int step = 0;
 	private boolean live = true;
 	private int x, y;
