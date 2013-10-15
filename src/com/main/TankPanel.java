@@ -3,6 +3,7 @@ package com.main;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.io.IOException;
 import java.util.*;
 
 import javax.swing.JOptionPane;
@@ -15,8 +16,8 @@ import com.missile.*;
 public class TankPanel extends JPanel{
 	public TankPanel() {
 		setBackground(Color.GREEN);
-		new Thread(new PaintThread()).start();
 		
+			
 		this.setFocusable(true);
 		this.addKeyListener(new KeyMonitor());
 
@@ -26,11 +27,14 @@ public class TankPanel extends JPanel{
 
 		// 把自身加入
 		tanks.add(myTank);
-			
+	
 		// 添加敌人
-		for(int i=0; i<2; i++) {
+		int initTankCount = Integer.parseInt(PropertyManager.getProperty("initTankCount"));
+		for(int i=0; i<initTankCount; i++) {
 			this.addRandomTank();
 		}
+		
+		new Thread(new PaintThread()).start();
 	}
 	
 	protected void paintComponent(Graphics g) {
@@ -98,7 +102,6 @@ public class TankPanel extends JPanel{
 	public ArrayList<Wall> walls = new ArrayList<Wall>();
 	public MyTank myTank = new MyTank(250, 300, true, this);
 	public ArrayList<Explode> explodes = new ArrayList<Explode>(); 
-	
 	
 	private class PaintThread implements Runnable {
 		public void run() {
