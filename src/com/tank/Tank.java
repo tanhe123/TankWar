@@ -2,8 +2,12 @@ package com.tank;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.Rectangle;
+import java.awt.Toolkit;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 
 import com.main.*;
@@ -11,6 +15,33 @@ import com.missile.*;
 import com.ornament.*;
 
 public class Tank {
+	private static Toolkit tk;
+	private static Image[] imgs;
+	public static Map<String, Image> hashImgs = new HashMap<String, Image>();
+	
+	static {
+		tk = Toolkit.getDefaultToolkit();
+		imgs = new Image[] {
+			tk.getImage(Explode.class.getClassLoader().getResource("images/tankL.gif")),
+			tk.getImage(Explode.class.getClassLoader().getResource("images/tankLU.gif")),
+			tk.getImage(Explode.class.getClassLoader().getResource("images/tankU.gif")),
+			tk.getImage(Explode.class.getClassLoader().getResource("images/tankRU.gif")),
+			tk.getImage(Explode.class.getClassLoader().getResource("images/tankR.gif")),
+			tk.getImage(Explode.class.getClassLoader().getResource("images/tankRD.gif")),
+			tk.getImage(Explode.class.getClassLoader().getResource("images/tankD.gif")),
+			tk.getImage(Explode.class.getClassLoader().getResource("images/tankLD.gif"))
+		};
+		
+		hashImgs.put("L", imgs[0]);
+		hashImgs.put("LU", imgs[1]);
+		hashImgs.put("U", imgs[2]);
+		hashImgs.put("RU", imgs[3]);
+		hashImgs.put("R", imgs[4]);
+		hashImgs.put("RD", imgs[5]);
+		hashImgs.put("D", imgs[6]);
+		hashImgs.put("LD", imgs[7]);
+	}
+	
 	public Tank(int x, int y) {
 		this.x = x;
 		this.y = y;
@@ -28,40 +59,35 @@ public class Tank {
 					
 		//显示学条
 		if(good) blood.draw(g);
-		
-		Color c = g.getColor();
-		// 设置坦克颜色
-		g.setColor(tankColor);
-		
-		g.fillOval(x, y, TANK_SIZE, TANK_SIZE);
-		g.setColor(Color.BLACK);
+
 		switch (ptdir) {
 		case L:
-			g.drawLine(x+TANK_SIZE/2, y+TANK_SIZE/2, x, y+TANK_SIZE/2);
+			g.drawImage(hashImgs.get("L"), x, y, null);
 			break;
 		case LU:
-			g.drawLine(x+TANK_SIZE/2, y+TANK_SIZE/2, x, y);
+			g.drawImage(hashImgs.get("LU"), x, y, null);
 			break;
 		case U: 
-			g.drawLine(x+TANK_SIZE/2, y+TANK_SIZE/2, x+TANK_SIZE/2, y);
+			g.drawImage(hashImgs.get("U"), x, y, null);
 			break;
 		case RU:
-			g.drawLine(x+TANK_SIZE/2, y+TANK_SIZE/2, x+TANK_SIZE, y);
+			g.drawImage(hashImgs.get("RU"), x, y, null);
 			break;
 		case R:
-			g.drawLine(x+TANK_SIZE/2, y+TANK_SIZE/2, x+TANK_SIZE, y+TANK_SIZE/2);
+			g.drawImage(hashImgs.get("R"), x, y, null);
 			break;
 		case RD:
-			g.drawLine(x+TANK_SIZE/2, y+TANK_SIZE/2, x+TANK_SIZE, y+TANK_SIZE);
+			g.drawImage(hashImgs.get("RD"), x, y, null);
 			break;
 		case D:
-			g.drawLine(x+TANK_SIZE/2, y+TANK_SIZE/2, x+TANK_SIZE/2, y+TANK_SIZE);
+			g.drawImage(hashImgs.get("D"), x, y, null);
 			break;
 		case LD:
-			g.drawLine(x+TANK_SIZE/2, y+TANK_SIZE/2, x, y+TANK_SIZE);
+			g.drawImage(hashImgs.get("LD"), x, y, null);
+			break;
+		default :
 			break;
 		}
-		g.setColor(c);
 		move();
 	}
 
@@ -249,6 +275,7 @@ public class Tank {
 	
 	public static final int TANK_SIZE = 30;
 	public static final int TANK_SPEED = 5;
+	
 	
 	private class BloodBar {
 		public void draw(Graphics g) {

@@ -17,6 +17,12 @@ public class Explode {
 	}
 	
 	public void draw(Graphics g) {
+		if(!init) {
+			init = true;
+			for(int i=0; i<imgs.length; i++) {
+				g.drawImage(imgs[i], -100, -100, null);
+			}
+		}
 		if(!live) return ;
 		
 		if(step == imgs.length) {
@@ -47,6 +53,7 @@ public class Explode {
 	};
 
 	private int step = 0;
+	private boolean init = false;
 	private boolean live = true;
 	private int x, y;
 	private TankPanel tp;
