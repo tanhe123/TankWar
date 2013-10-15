@@ -1,11 +1,12 @@
 package com.missile;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Rectangle;
 import java.awt.Toolkit;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import com.main.TankClient;
 import com.main.TankPanel;
@@ -14,6 +15,34 @@ import com.ornament.Wall;
 import com.tank.*;
 
 public class Missile {
+	private static Toolkit tk;
+	private static Image[] imgs;
+	public static Map<String, Image> hashImgs = new HashMap<String, Image>();
+	
+	private Image imga = tk.getImage(Explode.class.getClassLoader().getResource("images/missileU.gif"));
+	
+	static {
+		tk = Toolkit.getDefaultToolkit();
+		imgs = new Image[] {
+			tk.getImage(Explode.class.getClassLoader().getResource("images/missileL.gif")),
+			tk.getImage(Explode.class.getClassLoader().getResource("images/missileLU.gif")),
+			tk.getImage(Explode.class.getClassLoader().getResource("images/missileU.gif")),
+			tk.getImage(Explode.class.getClassLoader().getResource("images/missileRU.gif")),
+			tk.getImage(Explode.class.getClassLoader().getResource("images/missileR.gif")),
+			tk.getImage(Explode.class.getClassLoader().getResource("images/missileRD.gif")),
+			tk.getImage(Explode.class.getClassLoader().getResource("images/missileD.gif")),
+			tk.getImage(Explode.class.getClassLoader().getResource("images/missileLD.gif"))
+		};
+				
+		hashImgs.put("L", imgs[0]);
+		hashImgs.put("LU", imgs[1]);
+		hashImgs.put("U", imgs[2]);
+		hashImgs.put("RU", imgs[3]);
+		hashImgs.put("R", imgs[4]);
+		hashImgs.put("RD", imgs[5]);
+		hashImgs.put("D", imgs[6]);
+		hashImgs.put("LD", imgs[7]);
+	}
 	
 	public Missile(int x, int y, Direction dir) {
 		this.x = x;
@@ -28,11 +57,36 @@ public class Missile {
 	}
 	
 	public void draw(Graphics g) {
-		Color c = g.getColor();
-		g.setColor(Color.BLACK);
-		g.fillOval(x, y, MISSLE_SIZE, MISSLE_SIZE);
-		g.setColor(c);
-		
+
+		switch (dir) {
+		case L:
+			g.drawImage(hashImgs.get("L"), x, y, null);
+			break;
+		case LU:
+			g.drawImage(hashImgs.get("LU"), x, y, null);
+			break;
+		case U: 
+			g.drawImage(hashImgs.get("U"), x, y, null);
+			break;
+		case RU:
+			g.drawImage(hashImgs.get("RU"), x, y, null);
+			break;
+		case R:
+			g.drawImage(hashImgs.get("R"), x, y, null);
+			break;
+		case RD:
+			g.drawImage(hashImgs.get("RD"), x, y, null);
+			break;
+		case D:
+			g.drawImage(hashImgs.get("D"), x, y, null);
+			break;
+		case LD:
+			g.drawImage(hashImgs.get("LD"), x, y, null);
+			break;
+		default :
+			break;
+		}
+
 		move();
 	}
 	

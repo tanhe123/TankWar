@@ -136,9 +136,9 @@ public class Tank {
 		//触碰到边缘
 		if(x < 0) stay();
 		if(y < 0) stay();
-		if(x + TANK_SIZE > TankClient.WIDTH) stay();
+		if(x + getTankWidth() > TankClient.WIDTH) stay();
 		// 去掉标题栏的高度
-		if(y + TANK_SIZE > TankClient.HEIGHT-30) stay();
+		if(y + getTankHeight() > TankClient.HEIGHT-30) stay();
 		
 		if(!good) {
 			if(step == 0) {
@@ -212,15 +212,15 @@ public class Tank {
 	public Missile fire(Direction dir) {
 		if(!live) return null;
 		
-		int x = this.x+TANK_SIZE/2-Missile.MISSLE_SIZE/2;
-		int y = this.y+TANK_SIZE/2-Missile.MISSLE_SIZE/2;
+		int x = this.x+getTankWidth()/2-Missile.MISSLE_SIZE/2;
+		int y = this.y+getTankHeight()/2-Missile.MISSLE_SIZE/2;
 		Missile m = new Missile(x, y, this.good, dir, this.tp);
 		tp.misArrayList.add(m);
 		return m;
 	}
 	
 	public Rectangle getRect() {
-		return new Rectangle(x, y, TANK_SIZE, TANK_SIZE);
+		return new Rectangle(x, y, Tank.getTankWidth(), Tank.getTankHeight());
 	}
 	
 	public boolean isLive() { 
@@ -259,6 +259,14 @@ public class Tank {
 		good = b;
 	}
 	
+	public static int getTankWidth() {
+		return imgs[0].getWidth(null);
+	}
+	
+	public static int getTankHeight() {
+		return imgs[0].getHeight(null);
+	}
+	
 	private Color tankColor = Color.GRAY;
 	private BloodBar blood = new BloodBar();
 	private int oldX, oldY;	//保存的前一坐标
@@ -273,7 +281,6 @@ public class Tank {
 	private Direction ptdir = Direction.R; 
 	public boolean bleft = false, bright = false, bup = false, bdown = false; 
 	
-	public static final int TANK_SIZE = 30;
 	public static final int TANK_SPEED = 5;
 	
 	
@@ -281,9 +288,9 @@ public class Tank {
 		public void draw(Graphics g) {
 			Color c = g.getColor();
 			g.setColor(Color.BLACK);
-			g.drawRect(x, y-10, Tank.TANK_SIZE, 10);
+			g.drawRect(x, y-10, Tank.getTankWidth(), 10);
 			g.setColor(Color.RED);
-			g.fillRect(x, y-10, getLife()*TANK_SIZE/100, 10);
+			g.fillRect(x, y-10, getLife()*Tank.getTankWidth()/100, 10);
 			g.setColor(c);
 		}
 	}

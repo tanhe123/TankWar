@@ -3,7 +3,6 @@ package com.main;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.geom.Rectangle2D;
 import java.util.*;
 
 import javax.swing.JOptionPane;
@@ -29,7 +28,7 @@ public class TankPanel extends JPanel{
 		tanks.add(myTank);
 			
 		// 添加敌人
-		for(int i=0; i<10; i++) {
+		for(int i=0; i<2; i++) {
 			this.addRandomTank();
 		}
 	}
@@ -85,8 +84,8 @@ public class TankPanel extends JPanel{
 	
 	public void addRandomTank() {
 		while(true) {
-			Tank t = new EnemyTank(Tank.r.nextInt(TankClient.WIDTH-Tank.TANK_SIZE), 
-					Tank.r.nextInt(TankClient.HEIGHT-Tank.TANK_SIZE-40), this);
+			Tank t = new EnemyTank(Tank.r.nextInt(TankClient.WIDTH-100), 
+					Tank.r.nextInt(TankClient.HEIGHT-100), this);
 			if(!t.collidesWithTank(tanks) && !t.collidesWithWall(walls)) {
 				tanks.add(t);
 				break;
